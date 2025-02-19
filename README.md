@@ -28,19 +28,19 @@ function insert(key, value):
   array[index] = (key, value)
 ~~~
 
-Hash tables are a very desirable data structure in that they advertise constant insertion and lookup times (i.e., $O(1)$). 
+Hash tables are a very desirable data structure in that they advertise constant insertion and lookup times (i.e., $`O(1)`$). 
 
 The animation below shows an example of a hash table implementation. In the example, three key-value pairs are inserted into the hash table, leveraging the sample insertion function above. The first two insertion operations result in different insertion indices (2 and 4, respectively), but the third insertion showcases an interesting edge case; what happens when the computed index corresponds to an array index that already contains an entry? Hash tables have different ways of resolving that issue. One common strategy is to use a linked list: the array supporting the hash table implementation contains the head of the linked list, and if a bucket already contains an entry, the key-value pair is inserted at the tail of the linked list (or, alternatively, at the head of that list in some implementations).
 
 
-![[HashTable.gif]]
+![Illustration of a hash table usage](res/HashTable.gif)
 
 
 # Hash Denial-of-Service Attacks
 
-As stated above, hash tables offer constant time complexity for insertions and lookups, but when inserting colliding values, the complexity grows to linear (i.e., $O(n)$). The picture looks worse if an attacker attempts to insert or fetch _n_ elements into the hash table: the amortized complexity becomes quadratic (i.e., $O(n^2)$). This represents a significant slowdown compared to what was expected of this presumed fast data structure, as shown in the illustration below.
+As stated above, hash tables offer constant time complexity for insertions and lookups, but when inserting colliding values, the complexity grows to linear (i.e., $`O(n)`$). The picture looks worse if an attacker attempts to insert or fetch _n_ elements into the hash table: the amortized complexity becomes quadratic (i.e., $`O(n^2)`$). This represents a significant slowdown compared to what was expected of this presumed fast data structure, as shown in the illustration below.
 
-![[degenerate 1.png]]
+![A degenerate hash table](res/degenerate.png)
 
 Finding colliding inputs to be inserted in a hash table would be difficult if the hash function used to compute the insertion index were a hash function with strong cryptographic properties. However, many implementations use fairly simple hash functions for performance reasons.
 
@@ -68,10 +68,9 @@ QUIC (Quick UDP Internet Connections) is a modern transport protocol originally 
 
 QUIC is designed to improve the performance of connection-oriented web applications and to reduce network latency by using UDP (User Datagram Protocol) instead of TCP (Transmission Control Protocol), while also offering strong security guarantees. To do so, QUIC leverages the TLS 1.3 handshake to establish cryptographic material in order to secure connections.
 
-The following diagram showcases some of the performance improvements obtained by leveraging QUIC compared to the traditional TCP and TLS combination. With the latter, a TCP handshake has to be performed first before the TLS handshake to establish keying material and to start exchanging data securely. QUIC only requires a single round trip while providing equivalent security guarantees.
+The following diagram (sourced from [Wikipedia](https://en.wikipedia.org/wiki/QUIC#/media/File:Tcp-vs-quic-handshake.svg)) showcases some of the performance improvements obtained by leveraging QUIC compared to the traditional TCP and TLS combination. With the latter, a TCP handshake has to be performed first before the TLS handshake to establish keying material and to start exchanging data securely. QUIC only requires a single round trip while providing equivalent security guarantees.
 
-![[Tcp-vs-quic-handshake.svg]]
-Source: https://en.wikipedia.org/wiki/QUIC#/media/File:Tcp-vs-quic-handshake.svg
+<img src="res/Tcp-vs-quic-handshake.svg" alt="TCP vs QUIC handshake comparison" width="70%">
 
 An additional goal of QUIC is to improve performance during network-switching events. This can happen for example when a user with a mobile device transitions from a cellular network to Wi‑Fi. With TCP, the process consists in timing-out every existing connection and re-establishing them as needed. To mitigate this, QUIC was designed to provide seamless connection migration by using a connection identifier (CID) to uniquely identify the connection to the server. Upon switching networks, the connection can be re-established by sending a packet containing this CID, regardless of any changes in the source IP address.
 
@@ -89,7 +88,8 @@ The client also populates the Destination Connection ID field with a temporary v
 
 The figure below (similar in spirit to [Figure 7](https://datatracker.ietf.org/doc/html/rfc9000#figure-7) of the RFC) showcases the CID assignment and usage process. In a first step, the client selects a Source Connection ID C1 and sets the Destination Connection ID of the server to S1 (which will be overwritten by the server). After receiving this packet, the server sets the Destination ID to the Source CID of the client (C1), and populates its Source CID with a newly generated value (S2).
 
-![[cids 1.png]]
+<img src="res/cids.png" alt="Connection IDs" width="70%">
+
 
 Hence, it is fairly natural for servers to keep track of active connections using the original client SCID. Astute readers might already have guessed that many server implementations use hash tables to manage connections, and furthermore that they use the peer SCID as a key to index the connection. As also highlighted above, the initial Source CID selected and sent by the client is implementation-specific and can be set to any value within the allowed QUIC parameters (that is, a value between 8 and 20 bytes of length). Hence, an attacker can freely choose CIDs that collide under the target hash function used by a vulnerable server.
 
