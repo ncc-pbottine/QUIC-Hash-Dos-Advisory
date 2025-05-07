@@ -5,7 +5,7 @@ This technical advisory describes a class of vulnerabilities affecting several Q
 * [kwik](https://github.com/ptrd/kwik) 0.10.0 and all earlier versions (fixed in 0.10.1), tracked under CVE-2025-23020
 * [lsquic](https://github.com/litespeedtech/lsquic/) 4.0.12 and all earlier versions (fixed in 4.2.0), tracked under CVE-2025-24947
 * [picoquic](https://github.com/private-octopus/picoquic/) at commit `3827b00` on branch master, dated 2025-01-09 and in all previous versions (fixed at commit `b80fd3f` on branch master, dated 2025-02-18), tracked under CVE-2025-24946
-* [xquic](https://github.com/alibaba/xquic) version 1.8.1 and all earlier versions (fixed in 1.8.2)
+* [xquic](https://github.com/alibaba/xquic) version 1.8.1 and all earlier versions (fixed in 1.8.2), tracked under CVE-2025-47200.
 * [Apache Traffic Server](https://github.com/apache/trafficserver/) 10.0.3 and earlier versions supporting QUIC, and the v9.2.x LTS release train version 9.2.8 and earlier versions supporting QUIC (the support for QUIC being experimental for now, the issue is scheduled to be fixed in a future release)
 * [ngtcp2](https://github.com/ngtcp2/ngtcp2) 1.10.0 and all earlier versions (in the example server implementation)
 * Ericsson Rask, an experimental, pre-GA (General Availability) MP-QUIC implementation
